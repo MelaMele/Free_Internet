@@ -21,7 +21,7 @@ def digitString(stringLength):
     digit = string.digits
     return ''.join(random.choice(digit) for _ in range(stringLength))
 
-async def run_warp_request(referrer_id):
+async def run_warp_request(session, referrer_id):
     url = f'https://api.cloudflareclient.com/v0a{digitString(3)}/reg'
     install_id = genString(22)
     body = {
@@ -40,38 +40,30 @@ async def run_warp_request(referrer_id):
         'User-Agent': 'okhttp/3.12.1'
     }
     try:
-        async with aiohttp.ClientSession() as session:
-            # ሰርቨሩ እንዳይዘገይ Timeout ወደ 5 ሰከንድ ዝቅ ተደርጓል
-            async with session.post(url, json=body, headers=headers, timeout=5) as response:
-                return response.status
+        # ለፍጥነት ሲባል Timeout 4 ሰከንድ ብቻ ተደርጓል
+        async with session.post(url, json=body, headers=headers, timeout=4) as response:
+            return response.status
     except:
         return 500
 
-async def generate_bulk_data_sync(chat_id, status_msg_id, referrer_id):
-    success_count = 0
-    # በ 10 ሰከንድ የ Vercel ገደብ ውስጥ እንዲጠናቀቅ ዙሩን 3 (3GB) እናድርገው (በጣም አስተማማኝ ነው)
-    total_rounds = 3 
+async def generate_bulk_data_parallel(chat_id, status_msg_id, referrer_id):
+    # ሰርቨሩ ሳይዘጋ በአንድ ጊዜ (Parallel) 4 ጥሪዎችን እንተኩሳለን (4GB በአንድ ሰከንድ)
+    total_requests = 4 
     
-    for i in range(total_rounds):
-        status = await run_warp_request(referrer_id)
-        if status == 200:
-            success_count += 1
-            
-        try:
-            bot.edit_message_text(
-                chat_id=chat_id,
-                message_id=status_msg_id,
-                text=f"⚡ *የዳታ ማባዛት ሂደት ላይ ነው...*\n\n🔄 ዙር፦ `{i+1}/{total_rounds}`\n✅ የተሳካ፦ `{success_count} GB`"
-            )
-        except: pass
+    async with aiohttp.ClientSession() as session:
+        # 4ቱንም ጥሪዎች በአንድ ላይ ያዘጋጃል
+        tasks = [run_warp_request(session, referrer_id) for _ in range(total_requests)]
         
-        # በየዙሩ መሃል ረጅም ሰከንድ ከመጠበቅ 2 ሰከንድ ብቻ እንዲያርፍ ተደርጓል
-        await asyncio.sleep(2)
+        # 4ቱንም ጥሪዎች በአንድ ሰከንድ ውስጥ በአንድ ላይ ይተኩሳል!
+        results = await asyncio.gather(*tasks)
+        
+    success_count = sum(1 for status in results if status == 200)
         
     final_text = (
         f"🎉 *የዳታ ማባዛት ሂደት ተጠናቋል!*\n\n"
-        f"✅ በድምሩ *{success_count} GB* ዳታ ወደ አካውንትዎ በተሳካ ሁኔታ ተጨምሯል!\n\n"
-        f"📱 እባክዎ የ 1.1.1.1 መተግበሪያዎን Refresh ያድርጉት።"
+        f"✅ በዚህ ዙር *{success_count} GB* ዳታ ወደ አካውንትዎ በተሳካ ሁኔታ ተጨምሯል!\n\n"
+        f"📱 እባክዎ የ 1.1.1.1 መተግበሪያዎን Refresh ያድርጉት።\n\n"
+        f"🔄 ተጨማሪ ዳታ ለመጨመር የ Account ID ዎን ድጋሚ መላክ ይችላሉ።"
     )
     try: bot.edit_message_text(chat_id=chat_id, message_id=status_msg_id, text=final_text)
     except: pass
@@ -87,12 +79,12 @@ def handle_account_id(message):
         bot.reply_to(message, "❌ የ Account ID ስህተት ነው።")
         return
     
-    status_msg = bot.reply_to(message, "⏳ *ሂደቱ ተጀምሯል... እባክዎ ይጠብቁ...*")
+    status_msg = bot.reply_to(message, "⚡ *የዳታ ማባዛት ሂደት ላይ ነው... እባክዎ ጥቂት ሰከንዶች ይጠብቁ...*")
     
-    # እዚሁ ላይ በ synchronous መንገድ (Thread ሳይከፍት) ያካሂደዋል
+    # በአንድ ጊዜ ጥሪዎቹን ሰርቶ በ 4 ሰከንድ ውስጥ መልሱን ያጠናቅቃል
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    loop.run_until_complete(generate_bulk_data_sync(message.chat.id, status_msg.message_id, referrer_id))
+    loop.run_until_complete(generate_bulk_data_parallel(message.chat.id, status_msg.message_id, referrer_id))
     loop.close()
 
 # --- የ Webhook መቀበያ መድረክ (Flask Route) ---
