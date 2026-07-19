@@ -19,6 +19,27 @@ def digitString(stringLength):
     digit = string.digits
     return ''.join(random.choice(digit) for _ in range(stringLength))
 
+# --- ነፃ የሚሰራ ፕሮክሲ ከ API ላይ መውሰጃ ---
+def get_free_proxy():
+    try:
+        # በየሰከንዱ የሚታደስ ነፃ የፕሮክሲ ዝርዝር ኤፒአይ
+        url = "https://pubproxy.com/api/proxy?limit=1&format=json&type=http"
+        response = requests.get(url, timeout=3)
+        if response.status_code == 200:
+            data = response.json()
+            proxy_ip = data['data'][0]['ipPort']
+            return f"http://{proxy_ip}"
+    except:
+        pass
+    
+    # ኤፒአዩ ካልሰራ እንደ አማራጭ የሚሆኑ ቋሚ ነፃ ፕሮክሲዎች
+    fallback_proxies = [
+        "http://45.77.56.114:8080",
+        "http://198.199.86.11:80",
+        "http://165.227.223.41:3128"
+    ]
+    return random.choice(fallback_proxies)
+
 def run_warp_request(referrer_id):
     url = f'https://api.cloudflareclient.com/v0a{digitString(3)}/reg'
     install_id = genString(22)
@@ -32,16 +53,31 @@ def run_warp_request(referrer_id):
         "type": "Android",
         "locale": "en_US"
     }
+    
     headers = {
         'Content-Type': 'application/json; charset=UTF-8',
         'Host': 'api.cloudflareclient.com',
         'User-Agent': 'okhttp/3.12.1'
     }
+    
+    # አዲስ አይፒ መምረጥ
+    proxy_url = get_free_proxy()
+    proxies = {
+        "http": proxy_url,
+        "https": proxy_url
+    }
+    
     try:
-        response = requests.post(url, json=body, headers=headers, timeout=5)
+        # ጥሪውን በፕሮክሲው በኩል ማሳለፍ (Timeout ገደቡ 4 ሰከንድ ነው)
+        response = requests.post(url, json=body, headers=headers, proxies=proxies, timeout=4)
         return response.status_code
     except:
-        return 500
+        # የመጀመሪያው ፕሮክሲ ከከሸፈ ያለ ፕሮክሲ በቀጥታ እንዲሞክር ማድረግ
+        try:
+            response = requests.post(url, json=body, headers=headers, timeout=3)
+            return response.status_code
+        except:
+            return 500
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
@@ -54,22 +90,19 @@ def handle_account_id(message):
         bot.reply_to(message, "❌ የ Account ID ስህተት ነው።")
         return
     
-    # 1. መጀመሪያ መልዕክቱን ይልካል
-    status_msg = bot.reply_to(message, "⚡ *የማባዛት ሂደት ላይ ነው... እባክዎ 3 ሰከንድ ይጠብቁ...*")
+    status_msg = bot.reply_to(message, "⚡ *የማባዛት ሂደት ላይ ነው... ፕሮክሲ በመጠቀም ላይ...*")
     
-    # 2. እዚሁ መስመር ላይ ቀጥታ ጥሪውን ያደርጋል (Thread የለም)
     status = run_warp_request(referrer_id)
     
-    # 3. እንደ ውጤቱ መልሱን ወዲያውኑ ይቀይረዋል
     if status == 200:
         final_text = (
             "🎉 *የዳታ ማባዛት ሂደት ተጠናቋል!*\n\n"
             "✅ *1 GB* ዳታ ወደ አካውንትዎ በተሳካ ሁኔታ ተጨምሯል!\n\n"
             "📱 እባክዎ የ 1.1.1.1 መተግበሪያዎን Refresh ያድርጉት።\n\n"
-            "🔄 ተጨማሪ ዳታ ለመጨመር ID ዎን ድጋሚ መላክ ይችላሉ!"
+            "🔄 ተጨማሪ ለማግኘት ID ዎን ድጋሚ መላክ ይችላሉ!"
         )
     else:
-        final_text = "❌ ይቅርታ፣ ከCloudflare ሰርቨር ጋር መገናኘት አልተቻለም። እባክዎ ጥቂት ቆይተው ድጋሚ ይሞክሩ።"
+        final_text = "❌ እገዳውን መስበር አልተቻለም። እባክዎ ከጥቂት ሰከንዶች በኋላ ድጋሚ ይሞክሩ (አዲስ አይፒ እየተፈለገ ነው)።"
         
     try:
         bot.edit_message_text(chat_id=message.chat.id, message_id=status_msg.message_id, text=final_text)
