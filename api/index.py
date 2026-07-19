@@ -1,13 +1,10 @@
 import os
-import asyncio
-import aiohttp
-import json
-import datetime
 import random
 import string
+import datetime
+import requests
 from flask import Flask, request
 import telebot
-from threading import Thread
 
 # --- ማዋቀሪያዎች ---
 BOT_TOKEN = os.getenv("BOT_TOKEN")
@@ -22,7 +19,7 @@ def digitString(stringLength):
     digit = string.digits
     return ''.join(random.choice(digit) for _ in range(stringLength))
 
-def run_warp_request_sync(referrer_id):
+def run_warp_request(referrer_id):
     url = f'https://api.cloudflareclient.com/v0a{digitString(3)}/reg'
     install_id = genString(22)
     body = {
@@ -41,39 +38,10 @@ def run_warp_request_sync(referrer_id):
         'User-Agent': 'okhttp/3.12.1'
     }
     try:
-        # ለቪኤስኤል ፍጥነት ሲባል ጥሪው በ 3 ሰከንድ ውስጥ ካልመለሰ እንዲያልፍ ይደረጋል
-        import requests
-        response = requests.post(url, json=body, headers=headers, timeout=3)
+        response = requests.post(url, json=body, headers=headers, timeout=5)
         return response.status_code
     except:
         return 500
-
-def background_warp_runner(chat_id, status_msg_id, referrer_id):
-    # ቪኤስኤል ሳይዘጋው በፍጥነት 3 ጥሪዎችን ብቻ በተከታታይ እንመታለን
-    success_count = 0
-    total_rounds = 3
-    
-    for i in range(total_rounds):
-        status = run_warp_request_sync(referrer_id)
-        if status == 200:
-            success_count += 1
-            
-        try:
-            bot.edit_message_text(
-                chat_id=chat_id,
-                message_id=status_msg_id,
-                text=f"⚡ *የዳታ ማባዛት ሂደት ላይ ነው...*\n\n🔄 ዙር፦ `{i+1}/{total_rounds}`\n✅ የተሳካ፦ `{success_count} GB`"
-            )
-        except: pass
-        
-    final_text = (
-        f"🎉 *የዳታ ማባዛት ሂደት ተጠናቋል!*\n\n"
-        f"✅ በዚህ ዙር *{success_count} GB* ዳታ ወደ አካውንትዎ በተሳካ ሁኔታ ተጨምሯል!\n\n"
-        f"📱 እባክዎ የ 1.1.1.1 መተግበሪያዎን Refresh ያድርጉት።\n\n"
-        f"🔄 ተጨማሪ ዳታ ለመጨመር የ Account ID ዎን ድጋሚ መላክ ይችላሉ።"
-    )
-    try: bot.edit_message_text(chat_id=chat_id, message_id=status_msg_id, text=final_text)
-    except: pass
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
@@ -86,11 +54,27 @@ def handle_account_id(message):
         bot.reply_to(message, "❌ የ Account ID ስህተት ነው።")
         return
     
-    status_msg = bot.reply_to(message, "⚡ *የዳታ ማባዛት ሂደት ተጀምሯል... እባክዎ ይጠብቁ...*")
+    # 1. መጀመሪያ መልዕክቱን ይልካል
+    status_msg = bot.reply_to(message, "⚡ *የማባዛት ሂደት ላይ ነው... እባክዎ 3 ሰከንድ ይጠብቁ...*")
     
-    # ቪኤስኤል ሳይዘጋው ስራውን በጀርባ እንዲሰራ በ Thread እንከፍተዋለን
-    t = Thread(target=background_warp_runner, args=(message.chat.id, status_msg.message_id, referrer_id))
-    t.start()
+    # 2. እዚሁ መስመር ላይ ቀጥታ ጥሪውን ያደርጋል (Thread የለም)
+    status = run_warp_request(referrer_id)
+    
+    # 3. እንደ ውጤቱ መልሱን ወዲያውኑ ይቀይረዋል
+    if status == 200:
+        final_text = (
+            "🎉 *የዳታ ማባዛት ሂደት ተጠናቋል!*\n\n"
+            "✅ *1 GB* ዳታ ወደ አካውንትዎ በተሳካ ሁኔታ ተጨምሯል!\n\n"
+            "📱 እባክዎ የ 1.1.1.1 መተግበሪያዎን Refresh ያድርጉት።\n\n"
+            "🔄 ተጨማሪ ዳታ ለመጨመር ID ዎን ድጋሚ መላክ ይችላሉ!"
+        )
+    else:
+        final_text = "❌ ይቅርታ፣ ከCloudflare ሰርቨር ጋር መገናኘት አልተቻለም። እባክዎ ጥቂት ቆይተው ድጋሚ ይሞክሩ።"
+        
+    try:
+        bot.edit_message_text(chat_id=message.chat.id, message_id=status_msg.message_id, text=final_text)
+    except:
+        pass
 
 # --- የ Webhook መቀበያ መድረክ (Flask Route) ---
 @app.route('/' + BOT_TOKEN, methods=['POST'])
