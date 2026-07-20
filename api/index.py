@@ -3,65 +3,97 @@ import requests
 from flask import Flask, request
 import telebot
 
-# --- ማዋቀሪያዎች ---
 BOT_TOKEN = os.getenv("BOT_TOKEN")
+# 💡 ማሳሰቢያ፦ ይህ የቪአይፒ ቻናል ወይም ያንተ የግል ቴሌግራም ቻት መለያ ነው (Actions መልዕክት እንዲልክልህ)
+CHAT_ID = os.getenv("CHAT_ID") 
+
 bot = telebot.TeleBot(BOT_TOKEN, parse_mode="Markdown")
 app = Flask(__name__)
 
-def get_rates():
-    """የባንክ ዋጋን ብቻ በመሳብ የጥቁር ገበያውን በሀገር ውስጥ ፕሪሚየም ቀመር ያሰላል (Network Timeout እንዳይኖር)"""
-    # መነሻ ዋጋዎች (ኤፒአይ ባይሰራም ቦቱ እንዳይቆም)
-    bank_rate = 126.40
-    
+# ለእያንዳንዱ ምንዛሬ በጥቁር ገበያ የሚኖረው መደበኛ የፕሪሚየም ማባዣ (Premium Multipliers)
+PREMIUMS = {
+    "USD": 1.1353,  # ~13.5% ፕሪሚየም
+    "EUR": 1.1420,  # ~14.2% ፕሪሚየም
+    "GBP": 1.1450   # ~14.5% ፕሪሚየም
+}
+
+def get_all_rates():
+    """USD, EUR እና GBP ዋጋዎችን ከአስተማማኝ ኤፒአይ በአንድ ላይ ይስባል"""
+    rates_data = {}
     try:
-        # በጣም ፈጣን እና አስተማማኝ የባንክ ተመን ኤፒአይ (1.0 ሰከንድ ታይምአውት)
-        res = requests.get("https://open.er-api.com/v6/latest/USD", timeout=1.0)
+        res = requests.get("https://open.er-api.com/v6/latest/USD", timeout=1.5)
         if res.status_code == 200:
-            bank_rate = float(res.json()['rates']['ETB'])
+            base_data = res.json()['rates']
+            etb_usd = float(base_data['ETB'])
+            
+            # ዩሮ እና ፓውንድን ወደ ብር መመንዘር
+            etb_eur = etb_usd / float(base_data['EUR'])
+            etb_gbp = etb_usd / float(base_data['GBP'])
+            
+            currencies = {"USD": etb_usd, "EUR": etb_eur, "GBP": etb_gbp}
+            
+            for curr, bank_val in currencies.items():
+                black_val = bank_val * PREMIUMS[curr]
+                net_spread = black_val - bank_val
+                
+                # አውቶሜትድ የንግድ ምልክት መወሰኛ
+                if net_spread >= 17.0:
+                    status = "🔴 SHIFT (ሽጥ)"
+                elif net_spread <= 13.5:
+                    status = "🟢 GIZA (ግዛ)"
+                else:
+                    status = "🟡 HOLD (ታዘብ)"
+                    
+                rates_data[curr] = {
+                    "bank": bank_val,
+                    "black": black_val,
+                    "spread": net_spread,
+                    "status": status
+                }
+            return rates_data
     except Exception as e:
-        print(f"API Error: {e}")
-        
-    # የጥቁር ገበያ ዋጋን አሁን ካለው 13.5% የገበያ ፕሪሚየም አንጻር በራስ-ሰር ማሳላት
-    black_market_rate = bank_rate * 1.1353
+        print(f"API Fetch Error: {e}")
     
-    return bank_rate, black_market_rate
+    # ኤፒአዩ ካልሰራ የሚተካ መነሻ የፓናል ዳታ
+    return {
+        "USD": {"bank": 126.40, "black": 143.50, "spread": 17.10, "status": "🔴 SHIFT (ሽጥ)"},
+        "EUR": {"bank": 134.20, "black": 153.25, "spread": 19.05, "status": "🔴 SHIFT (ሽጥ)"},
+        "GBP": {"bank": 158.10, "black": 180.95, "spread": 22.85, "status": "🔴 SHIFT (ሽጥ)"}
+    }
+
+def build_dashboard_text(rates):
+    text = "🏦 *አውቶሜትድ የፋይናንስ ረዳት (VIP Dashboard)*\n━━━━━━━━━━━━━━━━━━━━━\n\n"
+    for curr, data in rates.items():
+        text += (
+            f"💱 *ምንዛሬ፦ {curr}*\n"
+            f"🏛️ ባንክ፦ `{data['bank']:.2f} ETB` | 👤 ጥቁር ገበያ፦ `{data['black']:.2f} ETB`\n"
+            f"📊 ልዩነት፦ `+{data['spread']:.2f} ETB`\n"
+            f"🚨 ምልክት፦ {data['status']}\n"
+            "-------------------------------------\n"
+        )
+    text += "\n🔄 ገበያውን በራስህ ለመፈተሽ /check ይጫኑ።"
+    return text
 
 @bot.message_handler(commands=['start', 'compare', 'check'])
-def send_automated_dashboard(message):
-    try:
-        # ዋጋዎቹን በአውቶሜሽን አስላ
-        bank_rate, black_market_rate = get_rates()
-        
-        net_spread = black_market_rate - bank_rate
-        profit_percentage = (net_spread / bank_rate) * 100
-        
-        # 🚨 አውቶሜትድ የንግድ ምልክት (Signal Logic)
-        if net_spread >= 17.0:
-            signal_alert = "🔴 **የሽያጭ ምልክት (SELL SIGNAL) - ዶላር ጨምሯል ሽጥ!**"
-            trading_advice = "💡 በጥቁር ገበያ ላይ ያለው የዶላር ዋጋ በከፍተኛ ሁኔታ ጨምሯል። የያዝከውን ዶላር/USDT ወደ ብር በመቀየር ትርፍህን የምትሰበስብበት መድረክ አሁን ነው።"
-        elif net_spread <= 13.0:
-            signal_alert = "🟢 **የግዢ ምልክት (BUY SIGNAL) - ዶላር ቀንሷል ግዛ!**"
-            trading_advice = "💡 በጥቁር ገበያ ላይ ያለው የዶላር ዋጋ ወደ ባንክ ተመን ተጠግቶ ቀንሷል። ብርህን በፍጥነት ወደ ዲጂታል ዶላር (USDT) ቀይረህ የምታከማችበት ትክክለኛ ሰዓት አሁን ነው።"
-        else:
-            signal_alert = "🟡 **የመጠባበቂያ ቀጠና (HOLD) - ገበያውን ታዘብ**"
-            trading_advice = "💡 ገበያው መካከለኛ መረጋጋት ላይ ነው። ዋጋው በከፍተኛ ሁኔታ እስኪጨምር ወይም እስኪቀንስ ድረስ በጥንቃቄ መከታተል ይመረጣል።"
+def send_dashboard(message):
+    rates = get_all_rates()
+    dashboard_text = build_dashboard_text(rates)
+    bot.reply_to(message, dashboard_text)
 
-        dashboard_text = (
-            "🏦 *አውቶሜትድ የፋይናንስ ረዳት (VIP)*\n"
-            "━━━━━━━━━━━━━━━━━━━━━\n\n"
-            f"🏛️ *የባንክ መግዣ ዋጋ (ይፋዊ)፦* `{bank_rate:.2f} ETB`\n"
-            f"👤 *የጥቁር ገበያ መሸጫ (P2P)፦* `{black_market_rate:.2f} ETB`\n\n"
-            f"📊 *የተጣራ የዋጋ ልዩነት፦* `+{net_spread:.2f} ETB` (`{profit_percentage:.1f}%`)\n"
-            "━━━━━━━━━━━━━━━━━━━━━\n\n"
-            f"{signal_alert}\n\n"
-            f"{trading_advice}\n"
-            "━━━━━━━━━━━━━━━━━━━━━\n\n"
-            "🔄 በየሰከንዱ የገበያውን አዲስ ምልክት ለማየት /check ይጫኑ።"
-        )
-        
-        bot.reply_to(message, dashboard_text)
-    except Exception as e:
-        print(f"Dashboard Error: {e}")
+# --- ለ GitHub Actions አውቶማቲክ ክሮን ጆብ የሚሆን ኤንድፖይንት ---
+@app.route('/api/cron', methods=['GET'])
+def cron_trigger():
+    # ይህ ኤንድፖይንት በየ 30 ደቂቃው ሲጠራ ለተጠቃሚው አውቶማቲክ ፑሽ ኖቲፊኬሽን ይልካል
+    rates = get_all_rates()
+    dashboard_text = "*🚨 አውቶማቲክ የገበያ ማንቂያ (30 Min Update)*\n\n" + build_dashboard_text(rates)
+    
+    if CHAT_ID:
+        try:
+            bot.send_message(CHAT_ID, dashboard_text)
+            return "Alert Sent Successfully", 200
+        except Exception as e:
+            return f"Failed to send: {e}", 500
+    return "No Chat ID Configured", 400
 
 @app.route('/' + BOT_TOKEN, methods=['POST'])
 def getMessage():
@@ -72,4 +104,4 @@ def getMessage():
 
 @app.route('/')
 def webhook():
-    return "Automated Signals Live", 200
+    return "Multi-Currency Bot Active", 200
