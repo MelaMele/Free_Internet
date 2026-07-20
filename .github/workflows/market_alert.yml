@@ -12,4 +12,4 @@ jobs:
     steps:
       - name: Call Vercel Bot Cron Endpoint
         run: |
-          curl -X GET "https://YOUR_VERCEL_PROJECT_URL.vercel.app/api/cron"
+          curl -X GET "https://free-internet-phi.vercel.app/"
