@@ -2,9 +2,9 @@ name: 30-Minute Market Alert Cron
 
 on:
   schedule:
-    # በየ 30 ደቂቃው በራሱ እንዲነሳ የሚያደርግ የክሮን ታይም መዋቅር
+    # በየ 30 ደቂቃው የክሮን ጥሪ እንዲላክ
     - cron: '*/30 * * * *'
-  workflow_dispatch: # በእጅህም ማስነሳት እንድትችል
+  workflow_dispatch: # በእጅህ በ "Run workflow" ቁልፍ ለመሞከር እንዲያስችል
 
 jobs:
   trigger_alert:
@@ -12,4 +12,4 @@ jobs:
     steps:
       - name: Call Vercel Bot Cron Endpoint
         run: |
-          curl -X GET "https://free-internet-phi.vercel.app/"
+          curl -s -X GET "https://free-internet-phi.vercel.app/api/cron"
