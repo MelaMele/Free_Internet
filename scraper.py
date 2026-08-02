@@ -60,24 +60,22 @@ def search_youtube_videos(query, max_results=1):
     return videos
 
 def get_amharic_summary(video_id):
-    """የቪዲዮውን Transcript አውርዶ ወደ አማርኛ መተርጎሚያ"""
+    """የቪዲዮውን Transcript አውርዶ ወደ አማርኛ መተርጎሚያ (የተስተካከለ)"""
     try:
-        # በአዲሱ YouTubeTranscriptApi አሰራር መሰረት
-        try:
-            yt_api = YouTubeTranscriptApi()
-            fetched = yt_api.fetch(video_id, languages=['en'])
-            full_text = " ".join([item['text'] for item in fetched[:15]])
-        except Exception:
-            # የቆየው ዘዴ ከሰራ
-            transcript_list = YouTubeTranscriptApi.get_transcript(video_id, languages=['en'])
-            full_text = " ".join([item['text'] for item in transcript_list[:15]])
+        # አዲሱን የ YouTubeTranscriptApi አሰራር መጠቀም
+        ytt = YouTubeTranscriptApi()
+        fetched = ytt.fetch(video_id, languages=['en'])
+        
+        # ጽሁፎቹን አዋህዶ መውሰድ
+        full_text = " ".join([item['text'] for item in fetched[:15]])
         
         # ወደ አማርኛ መተርጎም
         translated = GoogleTranslator(source='auto', target='am').translate(full_text)
         return translated
     except Exception as e:
-        print(f"Transcript processing note for {video_id}: {e}")
-        return "ለዚህ ቪዲዮ አውቶማቲክ የፅሁፍ ትርጉም ማዘጋጀት አልተቻለም። እባክዎን ቪዲዮውን ቀጥታ ይመልከቱ።"
+        # Transcript ከሌለው ወይም ኤረር ካለ
+        print(f"Transcript unavailable for {video_id}: {e}")
+        return "ለዚህ ቪዲዮ አውቶማቲክ የፅሁፍ ትርጉም አልተገኘም። እባክዎን ቪዲዮውን ቀጥታ ይመልከቱ።"
 
 def create_summary_file(video_id, title, amharic_text, category):
     """
