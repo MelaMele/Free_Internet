@@ -2,15 +2,13 @@ name: Video Scraper Workflow
 
 on:
   schedule:
-    # በየቀኑ እኩለ ሌሊት ላይ ይሰራል።
     - cron: '0 0 * * *'
-  workflow_dispatch: # በእጅ እንደፈለግን ለማስኬድ
+  workflow_dispatch:
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
     
-    # Write permission እንዲኖረው የሚያደርገው መስመር
     permissions:
       contents: write
 
@@ -25,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests
+          pip install -r requirements.txt
 
       - name: Run Scraper Script
         run: python scraper.py
@@ -34,6 +32,6 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add videos_data.json pdfs/
+          git add videos_data.json pdfs/ || exit 0
           git commit -m "Auto-update video database with PDFs" || exit 0
           git push
