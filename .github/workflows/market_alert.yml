@@ -1,15 +1,34 @@
-name: 30-Minute Market Alert Cron
+name: Video Scraper Workflow
 
 on:
   schedule:
-    # በየ 30 ደቂቃው የክሮን ጥሪ እንዲላክ
-    - cron: '*/30 * * * *'
-  workflow_dispatch: # በእጅህ በ "Run workflow" ቁልፍ ለመሞከር እንዲያስችል
+    # በየቀኑ እኩለ ሌሊት ላይ ይሰራል።
+    - cron: '0 0 * * *'
+  workflow_dispatch: # በእጅ እንደፈለግን ለማስኬድ
 
 jobs:
-  trigger_alert:
+  scrape:
     runs-on: ubuntu-latest
     steps:
-      - name: Call Vercel Bot Cron Endpoint
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
         run: |
-          curl -s -X GET "https://free-internet-phi.vercel.app/api/cron"
+          python -m pip install --upgrade pip
+          pip install yt-dlp youtube-transcript-api requests
+
+      - name: Run Scraper Script
+        run: python scraper.py
+
+      - name: Commit and Push Updated Data
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add videos_data.json
+          git commit -m "Auto-update video database" || exit 0
+          git push
