@@ -31,10 +31,10 @@
       "embed_url": "https://www.youtube.com/embed/ZQvfHyfgBtA"
     },
     {
-      "id": "ZSkB3zrU8T4",
+      "id": "fPjOWekzeGI",
       "title": "Tutorial Video (car engine working animation 3d)",
-      "url": "https://www.youtube.com/watch?v=ZSkB3zrU8T4",
-      "embed_url": "https://www.youtube.com/embed/ZSkB3zrU8T4"
+      "url": "https://www.youtube.com/watch?v=fPjOWekzeGI",
+      "embed_url": "https://www.youtube.com/embed/fPjOWekzeGI"
     }
   ],
   "electronics": [
@@ -63,16 +63,16 @@
       "embed_url": "https://www.youtube.com/embed/cd04o5yqSAU"
     },
     {
-      "id": "hr1gUTix3_M",
-      "title": "Tutorial Video (circuit design basics)",
-      "url": "https://www.youtube.com/watch?v=hr1gUTix3_M",
-      "embed_url": "https://www.youtube.com/embed/hr1gUTix3_M"
-    },
-    {
       "id": "QVtfWsZNUSE",
       "title": "Tutorial Video (circuit design basics)",
       "url": "https://www.youtube.com/watch?v=QVtfWsZNUSE",
       "embed_url": "https://www.youtube.com/embed/QVtfWsZNUSE"
+    },
+    {
+      "id": "sbt7nwqsgAs",
+      "title": "Tutorial Video (circuit design basics)",
+      "url": "https://www.youtube.com/watch?v=sbt7nwqsgAs",
+      "embed_url": "https://www.youtube.com/embed/sbt7nwqsgAs"
     }
   ],
   "coding": [
@@ -83,10 +83,10 @@
       "embed_url": "https://www.youtube.com/embed/_uQrJ0TkZlc"
     },
     {
-      "id": "kqtD5dpn9C8",
+      "id": "fWjsdhR3z3c",
       "title": "Tutorial Video (python programming tutorial)",
-      "url": "https://www.youtube.com/watch?v=kqtD5dpn9C8",
-      "embed_url": "https://www.youtube.com/embed/kqtD5dpn9C8"
+      "url": "https://www.youtube.com/watch?v=fWjsdhR3z3c",
+      "embed_url": "https://www.youtube.com/embed/fWjsdhR3z3c"
     },
     {
       "id": "iWS9ogMPOI0",
@@ -107,10 +107,10 @@
       "embed_url": "https://www.youtube.com/embed/QhD015WUMxE"
     },
     {
-      "id": "XVv6mJpFOb0",
+      "id": "hHQlcnubuFI",
       "title": "Tutorial Video (web scraping tutorial python)",
-      "url": "https://www.youtube.com/watch?v=XVv6mJpFOb0",
-      "embed_url": "https://www.youtube.com/embed/XVv6mJpFOb0"
+      "url": "https://www.youtube.com/watch?v=hHQlcnubuFI",
+      "embed_url": "https://www.youtube.com/embed/hHQlcnubuFI"
     }
   ],
   "automation": [
@@ -121,10 +121,10 @@
       "embed_url": "https://www.youtube.com/embed/c4VrA0kx5zc"
     },
     {
-      "id": "eH4d2XjGh5k",
+      "id": "uOtdWHMKhnw",
       "title": "Tutorial Video (industrial automation plc tutorial)",
-      "url": "https://www.youtube.com/watch?v=eH4d2XjGh5k",
-      "embed_url": "https://www.youtube.com/embed/eH4d2XjGh5k"
+      "url": "https://www.youtube.com/watch?v=uOtdWHMKhnw",
+      "embed_url": "https://www.youtube.com/embed/uOtdWHMKhnw"
     },
     {
       "id": "EAyzRmAKueE",
