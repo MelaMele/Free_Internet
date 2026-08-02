@@ -1,70 +1,108 @@
 import os
 import json
+import requests
 from fastapi import FastAPI, Request
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Dispatcher, CommandHandler, CallbackQueryHandler, ContextTypes
 
 app = FastAPI()
 
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_API = f"https://api.telegram.org/bot{TOKEN}"
 
-# የተሰበሰበውን የቪዲዮ ዳታ ማንበቢያ
 def load_video_data():
-    if os.path.exists("videos_data.json"):
-        with open("videos_data.json", "r", encoding="utf-8") as f:
-            return json.load(f)
+    """በGitHub Action ስክራፕ ተደርጎ የተቀመጠውን ዳታ ያነባል"""
+    try:
+        if os.path.exists("videos_data.json"):
+            with open("videos_data.json", "r", encoding="utf-8") as f:
+                return json.load(f)
+    except Exception as e:
+        print(f"Error loading video data: {e}")
     return {}
+
+def send_message(chat_id, text, reply_markup=None):
+    """ወደ ቴሌግራም መልእክት መላኪያ ፈንክሽን"""
+    payload = {
+        "chat_id": chat_id,
+        "text": text,
+        "parse_mode": "Markdown",
+        "disable_web_page_preview": False
+    }
+    if reply_markup:
+        payload["reply_markup"] = reply_markup
+        
+    try:
+        requests.post(f"{TELEGRAM_API}/sendMessage", json=payload, timeout=5)
+    except Exception as e:
+        print(f"Error sending message: {e}")
 
 @app.get("/")
 def home():
-    return {"status": "Video Hub Bot is running on Vercel!"}
+    return {"status": "Educational Video Hub Bot is active on Vercel!"}
 
+@app.post("/api/index")
 @app.post("/api/webhook")
 async def webhook_handler(request: Request):
-    data = await request.json()
-    
-    # የTelegram Update ማቀናበሪያ logic
-    if "message" in data:
-        chat_id = data["message"]["chat"]["id"]
-        text = data["message"].get("text", "")
+    """ከቴሌግራም ቦት የሚመጡ ጥያቄዎችን ማስተናገጃ"""
+    try:
+        data = await request.json()
         
-        if text == "/start":
-            keyboard = [
-                [InlineKeyboardButton("🚗 Automotive", callback_data="cat_automotive"),
-                 InlineKeyboardButton("⚡ Electronics", callback_data="cat_electronics")],
-                [InlineKeyboardButton("💻 Coding", callback_data="cat_coding"),
-                 InlineKeyboardButton("🤖 Automation", callback_data="cat_automation")]
-            ]
-            reply_markup = {"inline_keyboard": keyboard}
+        # 1. መደበኛ የጽሁፍ መልእክቶችን ማስተናገጃ (/start)
+        if "message" in data:
+            chat_id = data["message"]["chat"]["id"]
+            text = data["message"].get("text", "")
             
-            payload = {
-                "chat_id": chat_id,
-                "text": "እንኳን ወደ ሙያዊ የቪዲዮ ትምህርቶች ማዕከል በሰላም መጡ! የሚፈልጉትን የሙያ ዘርፍ ይምረጡ፡",
-                "reply_markup": reply_markup
-            }
-            # በRequests መልስ መላክ ይቻላል
-            import requests
-            requests.post(f"https://api.telegram.org/bot{TOKEN}/sendMessage", json=payload)
+            if text.startswith("/start"):
+                welcome_text = (
+                    "👋 **እንኳን ወደ ሙያዊ የቪዲዮ ትምህርቶች ማዕከል በሰላም መጡ!**\n\n"
+                    "ከታች ካሉት አማራጮች የሚፈልጉትን የሙያ ዘርፍ በመምረጥ "
+                    "በስክራፒንግ የተሰበሰቡ ነፃ እና ጥራት ያላቸውን የቪዲዮ ትምህርቶች ማግኘት ይችላሉ፡"
+                )
+                keyboard = {
+                    "inline_keyboard": [
+                        [
+                            {"text": "🚗 Automotive", "callback_data": "cat_automotive"},
+                            {"text": "⚡ Electronics", "callback_data": "cat_electronics"}
+                        ],
+                        [
+                            {"text": "💻 Coding", "callback_data": "cat_coding"},
+                            {"text": "🤖 Automation", "callback_data": "cat_automation"}
+                        ]
+                    ]
+                }
+                send_message(chat_id, welcome_text, keyboard)
+                
+        # 2. የአዝራሮች (Inline Buttons) መጫንን ማስተናገጃ
+        elif "callback_query" in data:
+            query = data["callback_query"]
+            chat_id = query["message"]["chat"]["id"]
+            callback_data = query.get("data", "")
             
-    elif "callback_query" in data:
-        query = data["callback_query"]
-        chat_id = query["message"]["chat"]["id"]
-        category = query["data"].replace("cat_", "")
+            if callback_data.startswith("cat_"):
+                category = callback_data.replace("cat_", "")
+                video_dataset = load_video_data()
+                videos = video_dataset.get(category, [])
+                
+                cat_titles = {
+                    "automotive": "🚗 Automotive & Mechanical",
+                    "electronics": "⚡ Electronics & Circuits",
+                    "coding": "💻 Programming & Software",
+                    "automation": "🤖 Robotics & Automation"
+                }
+                
+                display_title = cat_titles.get(category, category.capitalize())
+                
+                if not videos:
+                    response_text = f"❌ በ **{display_title}** ዘርፍ እስካሁን የተሰበሰቡ ቪዲዮዎች የሉም። እባክዎን በኋላ ድጋሚ ይሞክሩ።"
+                else:
+                    response_text = f"📚 **የ{display_title} ትምህርታዊ ቪዲዮዎች ዝርዝር:**\n\n"
+                    for idx, vid in enumerate(videos, 1):
+                        response_text += f"{idx}. 🎬 [{vid['title']}]({vid['url']})\n\n"
+                    
+                    response_text += "💡 *ቪዲዮዎቹን ለመመልከት ሊንኮቹን ይጫኑ።*"
+                
+                # ወደ ተጠቃሚው መልስ መላክ
+                send_message(chat_id, response_text)
+                
+    except Exception as e:
+        print(f"Webhook processing error: {e}")
         
-        videos = load_video_data().get(category, [])
-        
-        if not videos:
-            msg_text = f"ለእነዚህ `{category}` ዘርፍ እስካሁን የተሰበሰቡ ቪዲዮዎች የሉም።"
-        else:
-            msg_text = f"📹 **የ{category.capitalize()} ትምህርታዊ ቪዲዮዎች:**\n\n"
-            for v in videos[:5]: # የመጀመሪያዎቹን 5 ቪዲዮዎች ለማሳየት
-                msg_text += f"🔹 [{v['title']}]({v['url']})\n"
-        
-        import requests
-        requests.post(f"https://api.telegram.org/bot{TOKEN}/sendMessage", json={
-            "chat_id": chat_id,
-            "text": msg_text,
-            "parse_mode": "Markdown"
-        })
-
     return {"status": "ok"}
