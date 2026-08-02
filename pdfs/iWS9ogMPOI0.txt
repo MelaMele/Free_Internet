@@ -3,4 +3,4 @@ Video ID: iWS9ogMPOI0
 Title: Tutorial Video (fastapi tutorial for beginners)
 
 --- የአማርኛ ማጠቃለያ ---
-ለዚህ ቪዲዮ አውቶማቲክ የፅሁፍ ትርጉም ማዘጋጀት አልተቻለም። እባክዎን ቪዲዮውን ቀጥታ ይመልከቱ።
+ለዚህ ቪዲዮ አውቶማቲክ የፅሁፍ ትርጉም አልተገኘም። እባክዎን ቪዲዮውን ቀጥታ ይመልከቱ።

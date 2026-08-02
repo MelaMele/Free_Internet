@@ -1,6 +1,6 @@
-Category: AUTOMATION
-Video ID: EAyzRmAKueE
-Title: Tutorial Video (robotics basics tutorial)
+Category: CODING
+Video ID: fWjsdhR3z3c
+Title: Tutorial Video (python programming tutorial beginners)
 
 --- የአማርኛ ማጠቃለያ ---
 ለዚህ ቪዲዮ አውቶማቲክ የፅሁፍ ትርጉም አልተገኘም። እባክዎን ቪዲዮውን ቀጥታ ይመልከቱ።
