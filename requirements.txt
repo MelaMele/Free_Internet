@@ -4,3 +4,5 @@ uvicorn
 python-telegram-bot
 yt-dlp
 youtube-transcript-api
+deep-translator
+fpdf2
