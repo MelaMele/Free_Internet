@@ -1,0 +1,154 @@
+{
+  "automotive": [
+    {
+      "id": "rXNJs4xPY5I",
+      "title": "Tutorial Video (automotive repair tutorial)",
+      "url": "https://www.youtube.com/watch?v=rXNJs4xPY5I",
+      "embed_url": "https://www.youtube.com/embed/rXNJs4xPY5I"
+    },
+    {
+      "id": "Yeb7zft_79k",
+      "title": "Tutorial Video (automotive repair tutorial)",
+      "url": "https://www.youtube.com/watch?v=Yeb7zft_79k",
+      "embed_url": "https://www.youtube.com/embed/Yeb7zft_79k"
+    },
+    {
+      "id": "lpenIb9Yfn4",
+      "title": "Tutorial Video (car diagnostic code OBD2 tutorial)",
+      "url": "https://www.youtube.com/watch?v=lpenIb9Yfn4",
+      "embed_url": "https://www.youtube.com/embed/lpenIb9Yfn4"
+    },
+    {
+      "id": "YGG9VLzeMk8",
+      "title": "Tutorial Video (car diagnostic code OBD2 tutorial)",
+      "url": "https://www.youtube.com/watch?v=YGG9VLzeMk8",
+      "embed_url": "https://www.youtube.com/embed/YGG9VLzeMk8"
+    },
+    {
+      "id": "ZQvfHyfgBtA",
+      "title": "Tutorial Video (car engine working animation 3d)",
+      "url": "https://www.youtube.com/watch?v=ZQvfHyfgBtA",
+      "embed_url": "https://www.youtube.com/embed/ZQvfHyfgBtA"
+    },
+    {
+      "id": "ZSkB3zrU8T4",
+      "title": "Tutorial Video (car engine working animation 3d)",
+      "url": "https://www.youtube.com/watch?v=ZSkB3zrU8T4",
+      "embed_url": "https://www.youtube.com/embed/ZSkB3zrU8T4"
+    }
+  ],
+  "electronics": [
+    {
+      "id": "r3MFuAdkHEM",
+      "title": "Tutorial Video (electronics tutorial for beginners)",
+      "url": "https://www.youtube.com/watch?v=r3MFuAdkHEM",
+      "embed_url": "https://www.youtube.com/embed/r3MFuAdkHEM"
+    },
+    {
+      "id": "SGvOmwZvhVk",
+      "title": "Tutorial Video (electronics tutorial for beginners)",
+      "url": "https://www.youtube.com/watch?v=SGvOmwZvhVk",
+      "embed_url": "https://www.youtube.com/embed/SGvOmwZvhVk"
+    },
+    {
+      "id": "tiGw9PQbvrg",
+      "title": "Tutorial Video (arduino projects tutorial)",
+      "url": "https://www.youtube.com/watch?v=tiGw9PQbvrg",
+      "embed_url": "https://www.youtube.com/embed/tiGw9PQbvrg"
+    },
+    {
+      "id": "cd04o5yqSAU",
+      "title": "Tutorial Video (arduino projects tutorial)",
+      "url": "https://www.youtube.com/watch?v=cd04o5yqSAU",
+      "embed_url": "https://www.youtube.com/embed/cd04o5yqSAU"
+    },
+    {
+      "id": "hr1gUTix3_M",
+      "title": "Tutorial Video (circuit design basics)",
+      "url": "https://www.youtube.com/watch?v=hr1gUTix3_M",
+      "embed_url": "https://www.youtube.com/embed/hr1gUTix3_M"
+    },
+    {
+      "id": "QVtfWsZNUSE",
+      "title": "Tutorial Video (circuit design basics)",
+      "url": "https://www.youtube.com/watch?v=QVtfWsZNUSE",
+      "embed_url": "https://www.youtube.com/embed/QVtfWsZNUSE"
+    }
+  ],
+  "coding": [
+    {
+      "id": "_uQrJ0TkZlc",
+      "title": "Tutorial Video (python programming tutorial)",
+      "url": "https://www.youtube.com/watch?v=_uQrJ0TkZlc",
+      "embed_url": "https://www.youtube.com/embed/_uQrJ0TkZlc"
+    },
+    {
+      "id": "kqtD5dpn9C8",
+      "title": "Tutorial Video (python programming tutorial)",
+      "url": "https://www.youtube.com/watch?v=kqtD5dpn9C8",
+      "embed_url": "https://www.youtube.com/embed/kqtD5dpn9C8"
+    },
+    {
+      "id": "iWS9ogMPOI0",
+      "title": "Tutorial Video (fastapi tutorial for beginners)",
+      "url": "https://www.youtube.com/watch?v=iWS9ogMPOI0",
+      "embed_url": "https://www.youtube.com/embed/iWS9ogMPOI0"
+    },
+    {
+      "id": "umbU5Pk03CM",
+      "title": "Tutorial Video (fastapi tutorial for beginners)",
+      "url": "https://www.youtube.com/watch?v=umbU5Pk03CM",
+      "embed_url": "https://www.youtube.com/embed/umbU5Pk03CM"
+    },
+    {
+      "id": "QhD015WUMxE",
+      "title": "Tutorial Video (web scraping tutorial python)",
+      "url": "https://www.youtube.com/watch?v=QhD015WUMxE",
+      "embed_url": "https://www.youtube.com/embed/QhD015WUMxE"
+    },
+    {
+      "id": "XVv6mJpFOb0",
+      "title": "Tutorial Video (web scraping tutorial python)",
+      "url": "https://www.youtube.com/watch?v=XVv6mJpFOb0",
+      "embed_url": "https://www.youtube.com/embed/XVv6mJpFOb0"
+    }
+  ],
+  "automation": [
+    {
+      "id": "c4VrA0kx5zc",
+      "title": "Tutorial Video (industrial automation plc tutorial)",
+      "url": "https://www.youtube.com/watch?v=c4VrA0kx5zc",
+      "embed_url": "https://www.youtube.com/embed/c4VrA0kx5zc"
+    },
+    {
+      "id": "eH4d2XjGh5k",
+      "title": "Tutorial Video (industrial automation plc tutorial)",
+      "url": "https://www.youtube.com/watch?v=eH4d2XjGh5k",
+      "embed_url": "https://www.youtube.com/embed/eH4d2XjGh5k"
+    },
+    {
+      "id": "EAyzRmAKueE",
+      "title": "Tutorial Video (robotics tutorial for beginners)",
+      "url": "https://www.youtube.com/watch?v=EAyzRmAKueE",
+      "embed_url": "https://www.youtube.com/embed/EAyzRmAKueE"
+    },
+    {
+      "id": "NRj6gzah7JA",
+      "title": "Tutorial Video (robotics tutorial for beginners)",
+      "url": "https://www.youtube.com/watch?v=NRj6gzah7JA",
+      "embed_url": "https://www.youtube.com/embed/NRj6gzah7JA"
+    },
+    {
+      "id": "hGsq961_3x8",
+      "title": "Tutorial Video (mechatronics engineering tutorial)",
+      "url": "https://www.youtube.com/watch?v=hGsq961_3x8",
+      "embed_url": "https://www.youtube.com/embed/hGsq961_3x8"
+    },
+    {
+      "id": "pjHpUhIsQuo",
+      "title": "Tutorial Video (mechatronics engineering tutorial)",
+      "url": "https://www.youtube.com/watch?v=pjHpUhIsQuo",
+      "embed_url": "https://www.youtube.com/embed/pjHpUhIsQuo"
+    }
+  ]
+}
