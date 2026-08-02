@@ -3,9 +3,7 @@ import json
 import re
 import urllib.parse
 import urllib.request
-from youtube_transcript_api import YouTubeTranscriptApi
 from deep_translator import GoogleTranslator
-from fpdf import FPDF
 
 PDF_DIR = "pdfs"
 os.makedirs(PDF_DIR, exist_ok=True)
@@ -30,6 +28,7 @@ SEARCH_QUERIES = {
 }
 
 def search_youtube_videos(query, max_results=1):
+    """ከYouTube የቪዲዮ IDዎችን እና መረጃዎችን መፈለጊያ"""
     encoded_query = urllib.parse.quote(query)
     url = f"https://www.youtube.com/results?search_query={encoded_query}"
     
@@ -59,29 +58,36 @@ def search_youtube_videos(query, max_results=1):
         
     return videos
 
-def get_amharic_summary(video_id):
-    """የቪዲዮውን Transcript አውርዶ ወደ አማርኛ መተርጎሚያ (የተስተካከለ)"""
+def get_amharic_summary(video_id, title, category):
+    """
+    የቪዲዮውን ርዕስና ዘርፍ መነሻ በማድረግ ለተማሪዎች የሚሆን 
+    አጭርና ግልጽ የአማርኛ መግቢያና ማጠቃለያ ማዘጋጀት
+    """
     try:
-        # አዲሱን የ YouTubeTranscriptApi አሰራር መጠቀም
-        ytt = YouTubeTranscriptApi()
-        fetched = ytt.fetch(video_id, languages=['en'])
+        # የቪዲዮውን ርዕስ ወደ አማርኛ መተርጎም
+        translated_title = GoogleTranslator(source='auto', target='am').translate(title)
         
-        # ጽሁፎቹን አዋህዶ መውሰድ
-        full_text = " ".join([item['text'] for item in fetched[:15]])
+        category_intros = {
+            "automotive": "ይህ ትምህርት ስለ መኪና መካኒክስና ኤሌክትሪክ ሲስተም መሰረታዊ እውቀት ይሰጣል።",
+            "electronics": "በዚህ ትምህርት ስለ ኤሌክትሮኒክስ ሰርኪዩቶች እና ኤሌክትሮኒክ እቃዎች አሰራር ይማራሉ።",
+            "coding": "ይህ ትምህርት የኮዲንግ እና የፕሮግራሚንግ መሰረታዊ እሰቤዎችን በጥራት ያብራራል።",
+            "automation": "በዚህ ትምህርት ስለ ኢንዱስትሪያል ኦቶሜሽን እና ሮቦቲክስ እውቀት ያገኛሉ።"
+        }
         
-        # ወደ አማርኛ መተርጎም
-        translated = GoogleTranslator(source='auto', target='am').translate(full_text)
-        return translated
+        intro = category_intros.get(category, "ይህ ሙያዊ የቪዲዮ ትምህርት ነው።")
+        
+        summary = (
+            f"📌 **የትምህርቱ ርዕስ፦** {translated_title}\n"
+            f"💡 **መግቢያ፦** {intro}\n"
+            f"🎯 **ዓላማ፦** ተማሪዎች ቪዲዮውን ከማየታቸው በፊት የርዕሱን ዋና ሀሳብ እንዲረዱ ታስቦ የተዘጋጀ።"
+        )
+        return summary
     except Exception as e:
-        # Transcript ከሌለው ወይም ኤረር ካለ
-        print(f"Transcript unavailable for {video_id}: {e}")
-        return "ለዚህ ቪዲዮ አውቶማቲክ የፅሁፍ ትርጉም አልተገኘም። እባክዎን ቪዲዮውን ቀጥታ ይመልከቱ።"
+        print(f"Summary generation error for {video_id}: {e}")
+        return f"ይህ በ{category} ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።"
 
 def create_summary_file(video_id, title, amharic_text, category):
-    """
-    በPDF ፋይል ምትክ የአማርኛ ኢንኮዲንግ ችግር እንዳይፈጠር 
-    ጽሁፉን UTF-8 .txt እና ፅዱ HTML/Text አድርጎ ፋይል ማዘጋጀት
-    """
+    """ማጠቃለያውን በ UTF-8 Text ፋይል ማስቀመጫ"""
     file_path = os.path.join(PDF_DIR, f"{video_id}.txt")
     with open(file_path, "w", encoding="utf-8") as f:
         f.write(f"Category: {category.upper()}\n")
@@ -105,8 +111,8 @@ def main():
                 vid_id = vid_info["id"]
                 print(f"   📝 Generating Amharic Summary for video: {vid_id}")
                 
-                # 1. አማርኛ ትርጉም ማዘጋጀት
-                amharic_text = get_amharic_summary(vid_id)
+                # 1. አማርኛ ማጠቃለያ ማዘጋጀት
+                amharic_text = get_amharic_summary(vid_id, vid_info["title"], category)
                 
                 # 2. ፋይል ማስቀመጥ
                 summary_file = create_summary_file(vid_id, vid_info["title"], amharic_text, category)
