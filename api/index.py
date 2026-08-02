@@ -19,7 +19,7 @@ def load_video_data():
     return {}
 
 def send_message(chat_id, text, reply_markup=None):
-    """ወደ ቴሌግራም መልእክት መላኪያ ፈንክሽን"""
+    """ወደ ቴሌግራም ጽሁፍ መልእክት መላኪያ"""
     payload = {
         "chat_id": chat_id,
         "text": text,
@@ -36,7 +36,7 @@ def send_message(chat_id, text, reply_markup=None):
 
 @app.get("/")
 def home():
-    return {"status": "Educational Video Hub Bot is active on Vercel!"}
+    return {"status": "Educational Video & Amharic PDF Hub Bot is active!"}
 
 @app.post("/api/index")
 @app.post("/api/webhook")
@@ -45,16 +45,17 @@ async def webhook_handler(request: Request):
     try:
         data = await request.json()
         
-        # 1. መደበኛ የጽሁፍ መልእክቶችን ማስተናገጃ (/start)
+        # 1. /start መልእክት ሲመጣ
         if "message" in data:
             chat_id = data["message"]["chat"]["id"]
             text = data["message"].get("text", "")
             
             if text.startswith("/start"):
                 welcome_text = (
-                    "👋 **እንኳን ወደ ሙያዊ የቪዲዮ ትምህርቶች ማዕከል በሰላም መጡ!**\n\n"
-                    "ከታች ካሉት አማራጮች የሚፈልጉትን የሙያ ዘርፍ በመምረጥ "
-                    "በስክራፒንግ የተሰበሰቡ ነፃ እና ጥራት ያላቸውን የቪዲዮ ትምህርቶች ማግኘት ይችላሉ፡"
+                    "👋 **እንኳን ወደ ሙያዊ የቪዲዮ እና የPDF ትምህርቶች ማዕከል በሰላም መጡ!**\n\n"
+                    "መጀመሪያ **በአማርኛ የተተረጎመውን ማጠቃለያ (PDF/Text)** በማንበብ ዋና ሀሳቡን ይረዱ፤ "
+                    "በመቀጠል **ቪዲዮውን** በመመልከት የተግባር እውቀትዎን ያዳብሩ።\n\n"
+                    "እባክዎን የሚፈልጉትን የሙያ ዘርፍ ይምረጡ፡"
                 )
                 keyboard = {
                     "inline_keyboard": [
@@ -70,7 +71,7 @@ async def webhook_handler(request: Request):
                 }
                 send_message(chat_id, welcome_text, keyboard)
                 
-        # 2. የአዝራሮች (Inline Buttons) መጫንን ማስተናገጃ
+        # 2. ተጠቃሚው አዝራር ሲጫን
         elif "callback_query" in data:
             query = data["callback_query"]
             chat_id = query["message"]["chat"]["id"]
@@ -91,18 +92,23 @@ async def webhook_handler(request: Request):
                 display_title = cat_titles.get(category, category.capitalize())
                 
                 if not videos:
-                    response_text = f"❌ በ **{display_title}** ዘርፍ እስካሁን የተሰበሰቡ ቪዲዮዎች የሉም። እባክዎን በኋላ ድጋሚ ይሞክሩ።"
+                    response_text = f"❌ በ **{display_title}** ዘርፍ እስካሁን የተሰበሰቡ ትምህርቶች የሉም።"
+                    send_message(chat_id, response_text)
                 else:
-                    response_text = f"📚 **የ{display_title} ትምህርታዊ ቪዲዮዎች ዝርዝር:**\n\n"
+                    # ለእያንዳንዱ ቪዲዮ ማጠቃለያውን እና ሊንኩን መላክ
                     for idx, vid in enumerate(videos, 1):
-                        response_text += f"{idx}. 🎬 [{vid['title']}]({vid['url']})\n\n"
-                    
-                    response_text += "💡 *ቪዲዮዎቹን ለመመልከት ሊንኮቹን ይጫኑ።*"
-                
-                # ወደ ተጠቃሚው መልስ መላክ
-                send_message(chat_id, response_text)
+                        amharic_summary = vid.get("amharic_text", "ማጠቃለያ አልተዘጋጀም።")
+                        
+                        msg = (
+                            f"📚 **ትምህርት {idx}፦ {display_title}**\n\n"
+                            f"📝 **የአማርኛ ማጠቃለያ (ከቪዲዮው የተወሰደ)፦**\n"
+                            f"_{amharic_summary}_\n\n"
+                            f"🎬 **ተግባራዊ ቪዲዮ ለመመልከት፦**\n"
+                            f"👉 [{vid['title']}]({vid['url']})"
+                        )
+                        send_message(chat_id, msg)
                 
     except Exception as e:
-        print(f"Webhook processing error: {e}")
+        print(f"Webhook error: {e}")
         
     return {"status": "ok"}
