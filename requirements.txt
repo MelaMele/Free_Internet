@@ -1,3 +1,6 @@
-pyTelegramBotAPI
-Flask
 requests
+fastapi
+uvicorn
+python-telegram-bot
+yt-dlp
+youtube-transcript-api
