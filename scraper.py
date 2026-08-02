@@ -7,7 +7,6 @@ from youtube_transcript_api import YouTubeTranscriptApi
 from deep_translator import GoogleTranslator
 from fpdf import FPDF
 
-# PDFዎች የሚቀመጡበት ፎልደር
 PDF_DIR = "pdfs"
 os.makedirs(PDF_DIR, exist_ok=True)
 
@@ -31,7 +30,6 @@ SEARCH_QUERIES = {
 }
 
 def search_youtube_videos(query, max_results=1):
-    """ከYouTube የቪዲዮ IDዎችን እና መረጃዎችን መፈለጊያ"""
     encoded_query = urllib.parse.quote(query)
     url = f"https://www.youtube.com/results?search_query={encoded_query}"
     
@@ -53,7 +51,7 @@ def search_youtube_videos(query, max_results=1):
         for vid in unique_ids[:max_results]:
             videos.append({
                 "id": vid,
-                "title": f"የትምህርት ቪዲዮ ({query})",
+                "title": f"Tutorial Video ({query})",
                 "url": f"https://www.youtube.com/watch?v={vid}"
             })
     except Exception as e:
@@ -64,36 +62,39 @@ def search_youtube_videos(query, max_results=1):
 def get_amharic_summary(video_id):
     """የቪዲዮውን Transcript አውርዶ ወደ አማርኛ መተርጎሚያ"""
     try:
-        # የቪዲዮውን Subtitle/Transcript ማውረድ
-        transcript_list = YouTubeTranscriptApi.get_transcript(video_id, languages=['en'])
-        full_text = " ".join([item['text'] for item in transcript_list[:15]]) # የመጀመሪያዎቹን ጥቂት አረፍተ ነገሮች መውሰድ
+        # በአዲሱ YouTubeTranscriptApi አሰራር መሰረት
+        try:
+            yt_api = YouTubeTranscriptApi()
+            fetched = yt_api.fetch(video_id, languages=['en'])
+            full_text = " ".join([item['text'] for item in fetched[:15]])
+        except Exception:
+            # የቆየው ዘዴ ከሰራ
+            transcript_list = YouTubeTranscriptApi.get_transcript(video_id, languages=['en'])
+            full_text = " ".join([item['text'] for item in transcript_list[:15]])
         
         # ወደ አማርኛ መተርጎም
         translated = GoogleTranslator(source='auto', target='am').translate(full_text)
         return translated
     except Exception as e:
-        print(f"Could not extract transcript for {video_id}: {e}")
-        return "ለዚህ ቪዲዮ የጽሁፍ ትርጉም ማዘጋጀት አልተቻለም። እባክዎን ቪዲዮውን ቀጥታ ይመልከቱ።"
+        print(f"Transcript processing note for {video_id}: {e}")
+        return "ለዚህ ቪዲዮ አውቶማቲክ የፅሁፍ ትርጉም ማዘጋጀት አልተቻለም። እባክዎን ቪዲዮውን ቀጥታ ይመልከቱ።"
 
-def create_pdf(video_id, title, amharic_text, category):
-    """የተተረጎመውን ጽሁፍ ወደ PDF ፋይል መቀየሪያ"""
-    pdf = FPDF()
-    pdf.add_page()
-    pdf.set_font("Arial", size=12)
-    
-    pdf.cell(200, 10, txt=f"Category: {category.upper()}", ln=1, align='C')
-    pdf.cell(200, 10, txt=f"Video ID: {video_id}", ln=2, align='C')
-    pdf.ln(10)
-    
-    # የጽሁፉን ይዘት በPDF ውስጥ ማስገባት
-    pdf.multi_cell(0, 10, txt=f"Amharic Summary:\n\n{amharic_text}")
-    
-    pdf_filename = os.path.join(PDF_DIR, f"{video_id}.pdf")
-    pdf.output(pdf_filename)
-    return pdf_filename
+def create_summary_file(video_id, title, amharic_text, category):
+    """
+    በPDF ፋይል ምትክ የአማርኛ ኢንኮዲንግ ችግር እንዳይፈጠር 
+    ጽሁፉን UTF-8 .txt እና ፅዱ HTML/Text አድርጎ ፋይል ማዘጋጀት
+    """
+    file_path = os.path.join(PDF_DIR, f"{video_id}.txt")
+    with open(file_path, "w", encoding="utf-8") as f:
+        f.write(f"Category: {category.upper()}\n")
+        f.write(f"Video ID: {video_id}\n")
+        f.write(f"Title: {title}\n\n")
+        f.write("--- የአማርኛ ማጠቃለያ ---\n")
+        f.write(amharic_text)
+    return file_path
 
 def main():
-    print("🚀 Starting video scraping with Amharic PDF generation...")
+    print("🚀 Starting video scraping with Amharic summary extraction...")
     dataset = {}
 
     for category, queries in SEARCH_QUERIES.items():
@@ -104,16 +105,16 @@ def main():
             results = search_youtube_videos(query, max_results=1)
             for vid_info in results:
                 vid_id = vid_info["id"]
-                print(f"   📄 Generating Amharic PDF for video: {vid_id}")
+                print(f"   📝 Generating Amharic Summary for video: {vid_id}")
                 
                 # 1. አማርኛ ትርጉም ማዘጋጀት
                 amharic_text = get_amharic_summary(vid_id)
                 
-                # 2. PDF ፋይል መፍጠር
-                pdf_path = create_pdf(vid_id, vid_info["title"], amharic_text, category)
+                # 2. ፋይል ማስቀመጥ
+                summary_file = create_summary_file(vid_id, vid_info["title"], amharic_text, category)
                 
                 vid_info["amharic_text"] = amharic_text
-                vid_info["pdf_path"] = pdf_path
+                vid_info["file_path"] = summary_file
                 category_videos.append(vid_info)
                 
         dataset[category] = category_videos
@@ -123,7 +124,7 @@ def main():
     with open(output_filename, "w", encoding="utf-8") as f:
         json.dump(dataset, f, ensure_ascii=False, indent=2)
 
-    print(f"✅ Scraping & PDF generation finished! Data saved to {output_filename}")
+    print(f"✅ Scraping & summary generation finished! Data saved to {output_filename}")
 
 if __name__ == "__main__":
     main()
