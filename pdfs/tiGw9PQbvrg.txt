@@ -3,4 +3,6 @@ Video ID: tiGw9PQbvrg
 Title: Tutorial Video (arduino projects tutorial)
 
 --- የአማርኛ ማጠቃለያ ---
-ለዚህ ቪዲዮ አውቶማቲክ የፅሁፍ ትርጉም አልተገኘም። እባክዎን ቪዲዮውን ቀጥታ ይመልከቱ።
+📌 **የትምህርቱ ርዕስ፦** Error 500 (Server Error)!!1500.That’s an error.There was an error. Please try again later.That’s all we know.
+💡 **መግቢያ፦** በዚህ ትምህርት ስለ ኤሌክትሮኒክስ ሰርኪዩቶች እና ኤሌክትሮኒክ እቃዎች አሰራር ይማራሉ።
+🎯 **ዓላማ፦** ተማሪዎች ቪዲዮውን ከማየታቸው በፊት የርዕሱን ዋና ሀሳብ እንዲረዱ ታስቦ የተዘጋጀ።
