@@ -1,8 +1,8 @@
 Category: AUTOMOTIVE
-Video ID: YGG9VLzeMk8
-Title: Tutorial Video (car diagnostic code OBD2 basics)
+Video ID: 9KKfIYch1FE
+Title: Tutorial Video (car engine working tutorial)
 
 --- የአማርኛ ማጠቃለያ ---
-📌 **የትምህርቱ ርዕስ፦** አጋዥ ቪዲዮ (የመኪና ምርመራ ኮድ OBD2 መሰረታዊ)
+📌 **የትምህርቱ ርዕስ፦** አጋዥ ቪዲዮ (የመኪና ሞተር ሥራ አጋዥ ስልጠና)
 💡 **መግቢያ፦** ይህ ትምህርት ስለ መኪና መካኒክስና ኤሌክትሪክ ሲስተም መሰረታዊ እውቀት ይሰጣል።
 🎯 **ዓላማ፦** ተማሪዎች ቪዲዮውን ከማየታቸው በፊት የርዕሱን ዋና ሀሳብ እንዲረዱ ታስቦ የተዘጋጀ።
