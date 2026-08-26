@@ -3,6 +3,6 @@ Video ID: c4VrA0kx5zc
 Title: Tutorial Video (industrial automation plc tutorial)
 
 --- የአማርኛ ማጠቃለያ ---
-📌 **የትምህርቱ ርዕስ፦** Error 500 (Server Error)!!1500.That’s an error.There was an error. Please try again later.That’s all we know.
+📌 **የትምህርቱ ርዕስ፦** አጋዥ ቪዲዮ (የኢንዱስትሪያል አውቶሜሽን plc አጋዥ ስልጠና)
 💡 **መግቢያ፦** በዚህ ትምህርት ስለ ኢንዱስትሪያል ኦቶሜሽን እና ሮቦቲክስ እውቀት ያገኛሉ።
 🎯 **ዓላማ፦** ተማሪዎች ቪዲዮውን ከማየታቸው በፊት የርዕሱን ዋና ሀሳብ እንዲረዱ ታስቦ የተዘጋጀ።
