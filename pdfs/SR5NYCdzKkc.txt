@@ -1,8 +1,8 @@
-Category: ELECTRONICS
-Video ID: fJWR7dBuc18
-Title: Tutorial Video (arduino projects tutorial)
+Category: CODING
+Video ID: SR5NYCdzKkc
+Title: Tutorial Video (fastapi tutorial for beginners)
 
 --- የአማርኛ ማጠቃለያ ---
 📌 **የትምህርቱ ርዕስ፦** Error 500 (Server Error)!!1500.That’s an error.There was an error. Please try again later.That’s all we know.
-💡 **መግቢያ፦** በዚህ ትምህርት ስለ ኤሌክትሮኒክስ ሰርኪዩቶች እና ኤሌክትሮኒክ እቃዎች አሰራር ይማራሉ።
+💡 **መግቢያ፦** ይህ ትምህርት የኮዲንግ እና የፕሮግራሚንግ መሰረታዊ እሰቤዎችን በጥራት ያብራራል።
 🎯 **ዓላማ፦** ተማሪዎች ቪዲዮውን ከማየታቸው በፊት የርዕሱን ዋና ሀሳብ እንዲረዱ ታስቦ የተዘጋጀ።
