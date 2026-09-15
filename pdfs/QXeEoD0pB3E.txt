@@ -3,6 +3,4 @@ Video ID: QXeEoD0pB3E
 Title: Tutorial Video (python programming tutorial beginners)
 
 --- የአማርኛ ማጠቃለያ ---
-📌 **የትምህርቱ ርዕስ፦** Error 500 (Server Error)!!1500.That’s an error.There was an error. Please try again later.That’s all we know.
-💡 **መግቢያ፦** ይህ ትምህርት የኮዲንግ እና የፕሮግራሚንግ መሰረታዊ እሰቤዎችን በጥራት ያብራራል።
-🎯 **ዓላማ፦** ተማሪዎች ቪዲዮውን ከማየታቸው በፊት የርዕሱን ዋና ሀሳብ እንዲረዱ ታስቦ የተዘጋጀ።
+ይህ በcoding ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።
