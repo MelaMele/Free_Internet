@@ -1,18 +1,18 @@
 {
   "automotive": [
     {
-      "id": "ZQvfHyfgBtA",
+      "id": "9KKfIYch1FE",
       "title": "Tutorial Video (car engine working tutorial)",
-      "url": "https://www.youtube.com/watch?v=ZQvfHyfgBtA",
+      "url": "https://www.youtube.com/watch?v=9KKfIYch1FE",
       "amharic_text": "ይህ በautomotive ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።",
-      "file_path": "pdfs/ZQvfHyfgBtA.txt"
+      "file_path": "pdfs/9KKfIYch1FE.txt"
     },
     {
-      "id": "5BPEaSFNtg4",
+      "id": "YGG9VLzeMk8",
       "title": "Tutorial Video (car diagnostic code OBD2 basics)",
-      "url": "https://www.youtube.com/watch?v=5BPEaSFNtg4",
+      "url": "https://www.youtube.com/watch?v=YGG9VLzeMk8",
       "amharic_text": "ይህ በautomotive ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።",
-      "file_path": "pdfs/5BPEaSFNtg4.txt"
+      "file_path": "pdfs/YGG9VLzeMk8.txt"
     }
   ],
   "electronics": [
@@ -40,11 +40,11 @@
       "file_path": "pdfs/fWjsdhR3z3c.txt"
     },
     {
-      "id": "SR5NYCdzKkc",
+      "id": "iWS9ogMPOI0",
       "title": "Tutorial Video (fastapi tutorial for beginners)",
-      "url": "https://www.youtube.com/watch?v=SR5NYCdzKkc",
+      "url": "https://www.youtube.com/watch?v=iWS9ogMPOI0",
       "amharic_text": "ይህ በcoding ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።",
-      "file_path": "pdfs/SR5NYCdzKkc.txt"
+      "file_path": "pdfs/iWS9ogMPOI0.txt"
     }
   ],
   "automation": [
