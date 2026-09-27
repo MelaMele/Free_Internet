@@ -1,0 +1,6 @@
+Category: CODING
+Video ID: iukOehU5aF4
+Title: Tutorial Video (fastapi tutorial for beginners)
+
+--- የአማርኛ ማጠቃለያ ---
+ይህ በcoding ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።
