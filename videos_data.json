@@ -1,11 +1,11 @@
 {
   "automotive": [
     {
-      "id": "9KKfIYch1FE",
+      "id": "ZQvfHyfgBtA",
       "title": "Tutorial Video (car engine working tutorial)",
-      "url": "https://www.youtube.com/watch?v=9KKfIYch1FE",
+      "url": "https://www.youtube.com/watch?v=ZQvfHyfgBtA",
       "amharic_text": "ይህ በautomotive ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።",
-      "file_path": "pdfs/9KKfIYch1FE.txt"
+      "file_path": "pdfs/ZQvfHyfgBtA.txt"
     },
     {
       "id": "5BPEaSFNtg4",
@@ -33,11 +33,11 @@
   ],
   "coding": [
     {
-      "id": "kqtD5dpn9C8",
+      "id": "fWjsdhR3z3c",
       "title": "Tutorial Video (python programming tutorial beginners)",
-      "url": "https://www.youtube.com/watch?v=kqtD5dpn9C8",
+      "url": "https://www.youtube.com/watch?v=fWjsdhR3z3c",
       "amharic_text": "ይህ በcoding ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።",
-      "file_path": "pdfs/kqtD5dpn9C8.txt"
+      "file_path": "pdfs/fWjsdhR3z3c.txt"
     },
     {
       "id": "iWS9ogMPOI0",
