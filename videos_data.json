@@ -1,11 +1,11 @@
 {
   "automotive": [
     {
-      "id": "9KKfIYch1FE",
+      "id": "ZQvfHyfgBtA",
       "title": "Tutorial Video (car engine working tutorial)",
-      "url": "https://www.youtube.com/watch?v=9KKfIYch1FE",
+      "url": "https://www.youtube.com/watch?v=ZQvfHyfgBtA",
       "amharic_text": "ይህ በautomotive ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።",
-      "file_path": "pdfs/9KKfIYch1FE.txt"
+      "file_path": "pdfs/ZQvfHyfgBtA.txt"
     },
     {
       "id": "bo1YtOF5lR4",
@@ -24,20 +24,20 @@
       "file_path": "pdfs/r3MFuAdkHEM.txt"
     },
     {
-      "id": "fJWR7dBuc18",
+      "id": "yi29dbPnu28",
       "title": "Tutorial Video (arduino projects tutorial)",
-      "url": "https://www.youtube.com/watch?v=fJWR7dBuc18",
+      "url": "https://www.youtube.com/watch?v=yi29dbPnu28",
       "amharic_text": "ይህ በelectronics ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።",
-      "file_path": "pdfs/fJWR7dBuc18.txt"
+      "file_path": "pdfs/yi29dbPnu28.txt"
     }
   ],
   "coding": [
     {
-      "id": "fWjsdhR3z3c",
+      "id": "QXeEoD0pB3E",
       "title": "Tutorial Video (python programming tutorial beginners)",
-      "url": "https://www.youtube.com/watch?v=fWjsdhR3z3c",
+      "url": "https://www.youtube.com/watch?v=QXeEoD0pB3E",
       "amharic_text": "ይህ በcoding ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።",
-      "file_path": "pdfs/fWjsdhR3z3c.txt"
+      "file_path": "pdfs/QXeEoD0pB3E.txt"
     },
     {
       "id": "iWS9ogMPOI0",
