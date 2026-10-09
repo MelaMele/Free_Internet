@@ -8,11 +8,11 @@
       "file_path": "pdfs/ZQvfHyfgBtA.txt"
     },
     {
-      "id": "bo1YtOF5lR4",
+      "id": "4_d3nzbZuks",
       "title": "Tutorial Video (car diagnostic code OBD2 basics)",
-      "url": "https://www.youtube.com/watch?v=bo1YtOF5lR4",
+      "url": "https://www.youtube.com/watch?v=4_d3nzbZuks",
       "amharic_text": "ይህ በautomotive ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።",
-      "file_path": "pdfs/bo1YtOF5lR4.txt"
+      "file_path": "pdfs/4_d3nzbZuks.txt"
     }
   ],
   "electronics": [
@@ -24,11 +24,11 @@
       "file_path": "pdfs/r3MFuAdkHEM.txt"
     },
     {
-      "id": "yi29dbPnu28",
+      "id": "SdtjTCxDo1o",
       "title": "Tutorial Video (arduino projects tutorial)",
-      "url": "https://www.youtube.com/watch?v=yi29dbPnu28",
+      "url": "https://www.youtube.com/watch?v=SdtjTCxDo1o",
       "amharic_text": "ይህ በelectronics ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።",
-      "file_path": "pdfs/yi29dbPnu28.txt"
+      "file_path": "pdfs/SdtjTCxDo1o.txt"
     }
   ],
   "coding": [
@@ -56,11 +56,11 @@
       "file_path": "pdfs/c4VrA0kx5zc.txt"
     },
     {
-      "id": "EAyzRmAKueE",
+      "id": "NRj6gzah7JA",
       "title": "Tutorial Video (robotics basics tutorial)",
-      "url": "https://www.youtube.com/watch?v=EAyzRmAKueE",
+      "url": "https://www.youtube.com/watch?v=NRj6gzah7JA",
       "amharic_text": "ይህ በautomation ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።",
-      "file_path": "pdfs/EAyzRmAKueE.txt"
+      "file_path": "pdfs/NRj6gzah7JA.txt"
     }
   ]
 }
