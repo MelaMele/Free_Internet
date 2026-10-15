@@ -1,0 +1,6 @@
+Category: CODING
+Video ID: 02dzgC_Ba70
+Title: Tutorial Video (fastapi tutorial for beginners)
+
+--- የአማርኛ ማጠቃለያ ---
+ይህ በcoding ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።
