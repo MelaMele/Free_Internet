@@ -33,11 +33,11 @@
   ],
   "coding": [
     {
-      "id": "QXeEoD0pB3E",
+      "id": "fWjsdhR3z3c",
       "title": "Tutorial Video (python programming tutorial beginners)",
-      "url": "https://www.youtube.com/watch?v=QXeEoD0pB3E",
+      "url": "https://www.youtube.com/watch?v=fWjsdhR3z3c",
       "amharic_text": "ይህ በcoding ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።",
-      "file_path": "pdfs/QXeEoD0pB3E.txt"
+      "file_path": "pdfs/fWjsdhR3z3c.txt"
     },
     {
       "id": "iWS9ogMPOI0",
@@ -56,11 +56,11 @@
       "file_path": "pdfs/c4VrA0kx5zc.txt"
     },
     {
-      "id": "NRj6gzah7JA",
+      "id": "EAyzRmAKueE",
       "title": "Tutorial Video (robotics basics tutorial)",
-      "url": "https://www.youtube.com/watch?v=NRj6gzah7JA",
+      "url": "https://www.youtube.com/watch?v=EAyzRmAKueE",
       "amharic_text": "ይህ በautomation ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።",
-      "file_path": "pdfs/NRj6gzah7JA.txt"
+      "file_path": "pdfs/EAyzRmAKueE.txt"
     }
   ]
 }
