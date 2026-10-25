@@ -1,6 +1,6 @@
-Category: ELECTRONICS
+Category: AUTOMATION
 Video ID: yi29dbPnu28
-Title: Tutorial Video (arduino projects tutorial)
+Title: Tutorial Video (robotics basics tutorial)
 
 --- የአማርኛ ማጠቃለያ ---
-ይህ በelectronics ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።
+ይህ በautomation ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።
