@@ -1,27 +1,27 @@
 {
   "automotive": [
     {
-      "id": "9KKfIYch1FE",
+      "id": "ZQvfHyfgBtA",
       "title": "Tutorial Video (car engine working tutorial)",
-      "url": "https://www.youtube.com/watch?v=9KKfIYch1FE",
+      "url": "https://www.youtube.com/watch?v=ZQvfHyfgBtA",
       "amharic_text": "ይህ በautomotive ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።",
-      "file_path": "pdfs/9KKfIYch1FE.txt"
+      "file_path": "pdfs/ZQvfHyfgBtA.txt"
     },
     {
-      "id": "mbJSVn8GlAI",
+      "id": "5BPEaSFNtg4",
       "title": "Tutorial Video (car diagnostic code OBD2 basics)",
-      "url": "https://www.youtube.com/watch?v=mbJSVn8GlAI",
+      "url": "https://www.youtube.com/watch?v=5BPEaSFNtg4",
       "amharic_text": "ይህ በautomotive ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።",
-      "file_path": "pdfs/mbJSVn8GlAI.txt"
+      "file_path": "pdfs/5BPEaSFNtg4.txt"
     }
   ],
   "electronics": [
     {
-      "id": "r3MFuAdkHEM",
+      "id": "SGvOmwZvhVk",
       "title": "Tutorial Video (electronics tutorial for beginners)",
-      "url": "https://www.youtube.com/watch?v=r3MFuAdkHEM",
+      "url": "https://www.youtube.com/watch?v=SGvOmwZvhVk",
       "amharic_text": "ይህ በelectronics ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።",
-      "file_path": "pdfs/r3MFuAdkHEM.txt"
+      "file_path": "pdfs/SGvOmwZvhVk.txt"
     },
     {
       "id": "tiGw9PQbvrg",
