@@ -33,11 +33,11 @@
   ],
   "coding": [
     {
-      "id": "kqtD5dpn9C8",
+      "id": "fWjsdhR3z3c",
       "title": "Tutorial Video (python programming tutorial beginners)",
-      "url": "https://www.youtube.com/watch?v=kqtD5dpn9C8",
+      "url": "https://www.youtube.com/watch?v=fWjsdhR3z3c",
       "amharic_text": "ይህ በcoding ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።",
-      "file_path": "pdfs/kqtD5dpn9C8.txt"
+      "file_path": "pdfs/fWjsdhR3z3c.txt"
     },
     {
       "id": "iWS9ogMPOI0",
@@ -49,18 +49,18 @@
   ],
   "automation": [
     {
-      "id": "c4VrA0kx5zc",
+      "id": "V7EPvBVam5E",
       "title": "Tutorial Video (industrial automation plc tutorial)",
-      "url": "https://www.youtube.com/watch?v=c4VrA0kx5zc",
+      "url": "https://www.youtube.com/watch?v=V7EPvBVam5E",
       "amharic_text": "ይህ በautomation ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።",
-      "file_path": "pdfs/c4VrA0kx5zc.txt"
+      "file_path": "pdfs/V7EPvBVam5E.txt"
     },
     {
-      "id": "NRj6gzah7JA",
+      "id": "EAyzRmAKueE",
       "title": "Tutorial Video (robotics basics tutorial)",
-      "url": "https://www.youtube.com/watch?v=NRj6gzah7JA",
+      "url": "https://www.youtube.com/watch?v=EAyzRmAKueE",
       "amharic_text": "ይህ በautomation ዘርፍ የተዘጋጀ ሙያዊ ትምህርታዊ ቪዲዮ ነው።",
-      "file_path": "pdfs/NRj6gzah7JA.txt"
+      "file_path": "pdfs/EAyzRmAKueE.txt"
     }
   ]
 }
